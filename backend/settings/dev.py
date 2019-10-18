@@ -39,18 +39,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
-    'corsheaders',
-
     'rest_framework',
     'rest_framework.authtoken',
-    
+
     'rest_auth',
     'rest_auth.registration',
 
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    
+
     'corsheaders',
 
     'backend.api',
@@ -177,7 +175,7 @@ REST_AUTH_SERIALIZERS = {
 CORS_ORIGIN_ALLOW_ALL = True
 # CORS_ORIGIN_WHITELIST = [
 #     "http://tejruba1.herokuapp.com",
-    
+
 #     "http://localhost:8080",
 #     "http://127.0.0.1:8080",
 
