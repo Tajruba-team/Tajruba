@@ -2,6 +2,7 @@ from django.urls import path
 from rest_framework import renderers
 
 from . import views
+from .views import RegisterView
 
 
 account_list = views.AccountViewSet.as_view({
@@ -24,4 +25,6 @@ urlpatterns = [
 
     path('<int:pk>/profile/', account_profile, name='account-profile'),
     path('<int:pk>/settings/', account_settings, name='account-settings'),
+
+    path('register/', RegisterView.as_view(), name='register'),
 ]

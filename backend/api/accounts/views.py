@@ -1,8 +1,13 @@
 from django.contrib.auth.models import User
 from rest_framework import viewsets
 from rest_framework import permissions
+from rest_framework import status
+from rest_framework.authtoken.models import Token
+from rest_framework.response import Response
+from rest_framework.generics import CreateAPIView, GenericAPIView
+from rest_framework.permissions import AllowAny
 
-from .serializers import ProfileSerializer
+from .serializers import ProfileSerializer, RegisterSerializer, LoginSerializer
 
 
 class AccountViewSet(viewsets.ModelViewSet):
@@ -28,3 +33,42 @@ class ProfileViewSet(viewsets.ViewSet):
 
 class settingsViewSet(viewsets.ModelViewSet):
     pass
+
+
+class RegisterView(CreateAPIView):
+    serializer_class = RegisterSerializer
+    permission_classes = [AllowAny,]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            user = serializer.save()
+            return Response(
+                {
+                    'user': RegisterSerializer(user).data,
+                    'token': Token.objects.create(user=user).key
+                }
+                ,
+                status=status.HTTP_201_CREATED
+            )
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class LoginView(GenericAPIView):
+    serializer_class = LoginSerializer
+    permission_classes = [AllowAny,]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            user = serializer.validated_data()
+            return Response(
+                {
+                    'user': RegisterSerializer(user).data,
+                    'token': Token.objects.create(user=user).key
+                }
+                ,
+                status=status.HTTP_201_CREATED
+            )
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
