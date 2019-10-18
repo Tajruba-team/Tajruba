@@ -47,6 +47,8 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+=======
+MANIFEST
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -69,6 +71,7 @@ coverage.xml
 *.cover
 .hypothesis/
 
+
 # Translations
 *.mo
 *.pot
@@ -76,6 +79,7 @@ coverage.xml
 # Django stuff:
 *.log
 local_settings.py
+
 
 # Flask stuff:
 instance/

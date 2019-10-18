@@ -2,7 +2,7 @@
 
 <img src="/src/assets/readme.png">
 
-This template has been forked to be used in a Django and Vuetify application, you can start your next awesome project from here too!  
+This template has been forked to be used in a Django and Vuetify application, you can start your next awesome project from here too!
 
 ## What is new in this template
 - Update devDependencies versions.
