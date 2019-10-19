@@ -52,7 +52,7 @@ class RegisterView(CreateAPIView):
                 ,
                 status=status.HTTP_201_CREATED
             )
-        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(data=serializer.errors, status=status.HTTP_401_Unauthorized)
 
 class LoginView(GenericAPIView):
     serializer_class = LoginSerializer
@@ -71,4 +71,4 @@ class LoginView(GenericAPIView):
                 ,
                 status=status.HTTP_201_CREATED
             )
-        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(data=serializer.errors, status=status.HTTP_401_Unauthorized)

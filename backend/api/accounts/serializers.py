@@ -25,7 +25,7 @@ class UserSerializer(UserDetailsSerializer):
 
     class Meta(UserDetailsSerializer.Meta):
         fields = UserDetailsSerializer.Meta.fields + (
-                'bio', 'birth_date', 'country', 'job'
+                'username', 'email', 'first_name', 'last_name', 'profile', 'settings'
         )
 
     def update(self, instance, validated_data):
@@ -66,6 +66,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
@@ -75,4 +76,3 @@ class LoginSerializer(serializers.Serializer):
         if user and user.is_active:
             return user
         raise serializers.ValidationError("Incorrect Credentials")
-
