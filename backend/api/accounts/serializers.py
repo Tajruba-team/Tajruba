@@ -20,12 +20,12 @@ class SettingsSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(UserDetailsSerializer):
-    profile = ProfileSerializer()
-    settings = SettingsSerializer()
+    profile = ProfileSerializer(required=False)
+    settings = SettingsSerializer(required=False)
 
     class Meta(UserDetailsSerializer.Meta):
-        fields = UserDetailsSerializer.Meta.fields + (
-                'username', 'email', 'first_name', 'last_name', 'profile', 'settings'
+        fields = (
+                'id', 'username', 'email', 'first_name', 'last_name', 'profile', 'settings'
         )
 
     def update(self, instance, validated_data):
@@ -64,6 +64,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
         user.set_password(validated_data['password'])
         user.save()
+        user_profile = Profile.objects.create(user=user)
         return user
 
 
@@ -75,4 +76,8 @@ class LoginSerializer(serializers.Serializer):
         user = authenticate(**data)
         if user and user.is_active:
             return user
-        raise serializers.ValidationError("Incorrect Credentials")
+        raise serializers.ValidationError("Incorrect Credentials Or Account is not active.")
+
+
+# class PasswordChangeSerializer(PasswordChangeSerializer):
+#     set_password_form_class = SetPasswordForm

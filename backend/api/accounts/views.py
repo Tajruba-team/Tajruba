@@ -1,13 +1,17 @@
+# from django.conf import settings
 from django.contrib.auth.models import User
 from rest_framework import viewsets
 from rest_framework import permissions
 from rest_framework import status
-from rest_framework.authtoken.models import Token
+# from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.generics import CreateAPIView, GenericAPIView
 from rest_framework.permissions import AllowAny
+from knox.models import AuthToken
 
-from .serializers import ProfileSerializer, RegisterSerializer, LoginSerializer
+from .serializers import ProfileSerializer, RegisterSerializer, LoginSerializer, UserSerializer
+
+# User = settings.AUTH_USER_MODEL
 
 
 class AccountViewSet(viewsets.ModelViewSet):
@@ -44,15 +48,15 @@ class RegisterView(CreateAPIView):
 
         if serializer.is_valid():
             user = serializer.save()
+            instance, token = AuthToken.objects.create(user=user)
             return Response(
                 {
-                    'user': RegisterSerializer(user).data,
-                    'token': Token.objects.create(user=user).key
-                }
-                ,
+                    'user': UserSerializer(user).data,
+                    'token': token,
+                },
                 status=status.HTTP_201_CREATED
             )
-        return Response(data=serializer.errors, status=status.HTTP_401_Unauthorized)
+        return Response(data=serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
 
 class LoginView(GenericAPIView):
     serializer_class = LoginSerializer
@@ -62,13 +66,14 @@ class LoginView(GenericAPIView):
         serializer = self.get_serializer(data=request.data)
 
         if serializer.is_valid():
-            user = serializer.validated_data()
+            user_object = serializer.validated_data
+            instance, token = AuthToken.objects.create(user=user_object)
             return Response(
                 {
-                    'user': RegisterSerializer(user).data,
-                    'token': Token.objects.create(user=user).key
+                    'user': UserSerializer(user_object).data,
+                    'token': token
                 }
                 ,
                 status=status.HTTP_201_CREATED
             )
-        return Response(data=serializer.errors, status=status.HTTP_401_Unauthorized)
+        return Response(data=serializer.errors, status=status.HTTP_401_UNAUTHORIZED)

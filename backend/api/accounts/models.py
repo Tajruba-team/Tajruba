@@ -9,11 +9,14 @@ class Settings(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    settings = models.OneToOneField(Settings, on_delete=models.CASCADE)
+    settings = models.OneToOneField(Settings, on_delete=models.CASCADE, blank=True, null=True)
 
-    bio = models.TextField(max_length=200)
-    birth_date = models.DateField()
-    country = models.CharField(max_length=30)
-    job = models.CharField(max_length=50)
+    bio = models.TextField(max_length=200, blank=True, null=True)
+    birth_date = models.DateField(blank=True, null=True)
+    country = models.CharField(max_length=30, blank=True, null=True)
+    job = models.CharField(max_length=50, blank=True, null=True)
     #photo
     #social-accounts
+
+    def __str__(self):
+        return self.user.username
