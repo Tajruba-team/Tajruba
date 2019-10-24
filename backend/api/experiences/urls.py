@@ -16,6 +16,6 @@ urlpatterns = [
     path('', include(router.urls)),
     path('experiences/<experience_slug>/favorite/',ExperienceFavoriteAPIView.as_view()),
     path('experiences/<experience_slug>/comments/', CommentsListCreateAPIView.as_view()),
-    path('experiences/<article_slug>/comments/<comment_pk>/',CommentsDestroyAPIView.as_view()),
+    path('experiences/<experience_slug>/comments/<comment_pk>/',CommentsDestroyAPIView.as_view()),
     path('tags/', TagListAPIView.as_view()),
 ]

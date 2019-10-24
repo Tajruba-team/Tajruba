@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
 
     'corsheaders',
+    'django_extensions',
 
     'backend.api',
     'backend.api.accounts',

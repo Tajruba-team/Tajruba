@@ -118,9 +118,6 @@ class CommentsListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = CommentSerializer
 
     def filter_queryset(self, queryset):
-        # The built-in list function calls `filter_queryset`. Since we only
-        # want comments for a specific article, this is a good place to do
-        # that filtering.
         filters = {self.lookup_field: self.kwargs[self.lookup_url_kwarg]}
 
         return queryset.filter(**filters)

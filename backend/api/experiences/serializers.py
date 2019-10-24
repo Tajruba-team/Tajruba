@@ -1,18 +1,20 @@
 from rest_framework import serializers
 
-# from backend.api.profiles.serializers import ProfileSerializer
+from backend.api.accounts.serializers import ProfileSerializer
 
 from .models import Experience, Comment, Tag
 from .relations import TagRelatedField
 
 
 class ExperienceSerializer(serializers.ModelSerializer):
-    # author = ProfileSerializer(read_only=True)
+    author = ProfileSerializer(read_only=True)
     description = serializers.CharField(required=False)
     slug = serializers.SlugField(required=False)
 
-    # favorited = serializers.SerializerMethodField()
-    # favoritesCount = serializers.SerializerMethodField(method_name='get_favorites_count')
+    # does this experience favorited bt the current user
+    favorited = serializers.SerializerMethodField()
+    # how many times this experience has been favorited
+    favoritesCount = serializers.SerializerMethodField(method_name='get_favorites_count')
 
     tagList = TagRelatedField(many=True, required=False, source='tags')
     created_at = serializers.SerializerMethodField(method_name='get_created_at')
@@ -21,13 +23,13 @@ class ExperienceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Experience
         fields = (
-            # 'author',
+            'author',
             'slug',
             'title',
             'description',
             'body',    
-            # 'favorited',
-            # 'favoritesCount',
+            'favorited',
+            'favoritesCount',
             'tagList',
             'created_at',
             'updated_at',
@@ -47,6 +49,9 @@ class ExperienceSerializer(serializers.ModelSerializer):
 
     def get_created_at(self, instance):
         return instance.created_at.isoformat()
+    
+    def get_updated_at(self, instance):
+        return instance.updated_at.isoformat()
 
     def get_favorited(self, instance):
         request = self.context.get('request', None)
@@ -54,7 +59,7 @@ class ExperienceSerializer(serializers.ModelSerializer):
         if request is None:
             return False
 
-        if not request.user.is_authenticated():
+        if not request.user.is_authenticated:
             return False
 
         return request.user.profile.has_favorited(instance)
@@ -62,13 +67,9 @@ class ExperienceSerializer(serializers.ModelSerializer):
     def get_favorites_count(self, instance):
         return instance.favorited_by.count()
 
-    def get_updated_at(self, instance):
-        return instance.updated_at.isoformat()
-
 
 class CommentSerializer(serializers.ModelSerializer):
-    # author = ProfileSerializer(required=False)
-
+    author = ProfileSerializer(required=False)
     created_at = serializers.SerializerMethodField(method_name='get_created_at')
     updated_at = serializers.SerializerMethodField(method_name='get_updated_at')
 
@@ -76,7 +77,7 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = (
             'id',
-            # 'author',
+            'author',
             'body',
             'created_at',
             'updated_at',
