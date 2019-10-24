@@ -39,7 +39,7 @@ DATABASES = {
 ############
 # SECURITY #
 ############
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['tajruba1.herokuapp.com/', '*']
 
