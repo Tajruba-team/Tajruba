@@ -33,14 +33,24 @@ INSTALLED_APPS = [
 # DATABASE #
 ############
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL'),
+        conn_max_age=500
+    )
 }
 
 ############
 # SECURITY #
 ############
-DEBUG = True
-
-ALLOWED_HOSTS = ['tajruba1.herokuapp.com/', '*']
-
+SECRET_KEY = os.environ.get('SECRET_KEY')
+DEBUG = os.environ.get('DEBUG')
+ALLOWED_HOSTS = ['tajruba1.herokuapp.com/', '127.0.0.1']
 CORS_ORIGIN_ALLOW_ALL = True
+
+############
+# EMAIL    #
+############
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER'')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
+SERVER_EMAIL = os.environ.get('SERVER_EMAIL')
