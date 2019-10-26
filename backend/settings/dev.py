@@ -181,14 +181,21 @@ USE_TZ = True
 # In Production, it's recommended use an alternative approach such as:
 # http://whitenoise.evans.io/en/stable/django.html?highlight=django
 
+
+# all static collected by django saved here - STATIC_ROOT
+# STATIC_ROOT = os.path.join(BASE_DIR, 'dist')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# the url used to refer static files saved in STATIC_ROOT
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'dist', 'staticfiles')
+
+# addtional places to search for static files
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
     os.path.join(BASE_DIR, 'dist/static'),
 )
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 # Insert Whitenoise Middleware at top but below Security Middleware
 # MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware',)
