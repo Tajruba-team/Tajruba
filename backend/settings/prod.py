@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'rest_auth',
     'rest_auth.registration',
     'corsheaders',
+    'drf_yasg',
 
     'backend.api',
     'backend.api.accounts',
