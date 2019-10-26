@@ -9,4 +9,6 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('api/accounts/', include('backend.api.accounts.urls')),
     path('api/', include('backend.api.experiences.urls')),
+
+    path('api/doc/', include('backend.docurls'))
 ]
