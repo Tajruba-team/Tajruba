@@ -9,7 +9,7 @@ from rest_framework.generics import CreateAPIView, GenericAPIView
 from rest_framework.permissions import AllowAny
 from knox.models import AuthToken
 
-from .serializers import ProfileSerializer, RegisterSerializer, LoginSerializer, UserSerializer
+from .serializers import ProfileSerializer, RegisterSerializer, LoginSerializer, UserSerializer, SettingsSerializer
 from .models import Profile, Settings
 # User = settings.AUTH_USER_MODEL
 
@@ -32,11 +32,11 @@ class ProfileViewSet(viewsets.ViewSet):
     A ViewSet for update or retrieving profile.
     """
     queryset = Profile.objects.all()
-
+    serializer_class = ProfileSerializer()
 
 class settingsViewSet(viewsets.ModelViewSet):
     queryset =Settings.objects.all()
-
+    serializer_class = SettingsSerialzer()
 
 class RegisterView(CreateAPIView):
     serializer_class = RegisterSerializer

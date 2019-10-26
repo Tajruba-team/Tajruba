@@ -17,8 +17,8 @@ class ExperienceSerializer(serializers.ModelSerializer):
     favoritesCount = serializers.SerializerMethodField(method_name='get_favorites_count')
 
     tagList = TagRelatedField(many=True, required=False, source='tags')
-    created_at = serializers.SerializerMethodField(method_name='get_created_at')
-    updated_at = serializers.SerializerMethodField(method_name='get_updated_at')
+    created_at = serializers.SerializerMethodField()
+    updated_at = serializers.SerializerMethodField()
 
     class Meta:
         model = Experience
