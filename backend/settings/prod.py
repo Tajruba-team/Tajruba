@@ -1,4 +1,7 @@
 """ Production Settings """
+import django_heroku
+django_heroku.settings(locals())
+
 import os
 import dj_database_url
 
@@ -55,3 +58,4 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
 SERVER_EMAIL = os.environ.get('SERVER_EMAIL')
+
