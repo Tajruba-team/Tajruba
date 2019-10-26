@@ -182,15 +182,13 @@ USE_TZ = True
 # http://whitenoise.evans.io/en/stable/django.html?highlight=django
 
 STATIC_URL = '/static/'
-# Serve `dist` as is, built by webpack
-STATIC_ROOT = os.path.join(BASE_DIR, 'dist', 'static')
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'dist/static'),]
-
-##########
-# STATIC #
-##########
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'dist', 'staticfiles')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'dist/static'),
+)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 # Insert Whitenoise Middleware at top but below Security Middleware
 # MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware',)
