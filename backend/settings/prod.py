@@ -44,7 +44,7 @@ DATABASES = {
 ############
 SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = os.environ.get('DEBUG')
-ALLOWED_HOSTS = ['tajruba1.herokuapp.com/', '127.0.0.1']
+ALLOWED_HOSTS = ['tajruba1.herokuapp.com', '127.0.0.1']
 CORS_ORIGIN_ALLOW_ALL = True
 
 ############
