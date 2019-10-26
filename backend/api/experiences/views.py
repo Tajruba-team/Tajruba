@@ -18,7 +18,7 @@ class ExperienceViewSet(mixins.CreateModelMixin,
 
     lookup_field = 'slug'
     queryset = Experience.objects.select_related('author', 'author__user')
-    # permission_classes = (IsAuthenticatedOrReadOnly, )
+    permission_classes = [AllowAny,]
     renderer_classes = (ExperienceJSONRenderer,)
     serializer_class = ExperienceSerializer
 
@@ -109,7 +109,7 @@ class ExperienceViewSet(mixins.CreateModelMixin,
 class CommentsListCreateAPIView(generics.ListCreateAPIView):
     lookup_field = 'experience__slug'
     lookup_url_kwarg = 'experience_slug'
-    # permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = [AllowAny,]
     queryset = Comment.objects.select_related(
         'experience', 'experience__author', 'experience__author__user',
         'author', 'author__user'
@@ -140,7 +140,7 @@ class CommentsListCreateAPIView(generics.ListCreateAPIView):
 
 class CommentsDestroyAPIView(generics.DestroyAPIView):
     lookup_url_kwarg = 'comment_pk'
-    # permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = [AllowAny,]
     queryset = Comment.objects.all()
 
     def destroy(self, request, experience_slug=None, comment_pk=None):
@@ -155,7 +155,7 @@ class CommentsDestroyAPIView(generics.DestroyAPIView):
 
 
 class ExperienceFavoriteAPIView(APIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [AllowAny,]
     renderer_classes = (ExperienceJSONRenderer,)
     serializer_class = ExperienceSerializer
 

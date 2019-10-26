@@ -14,3 +14,12 @@ psycopg2-binary
 ptvsd
 pytz
 whitenoise
+
+drf-yasg
+coreapi
+inflection
+uritemplate
+packaging
+six
+coreschema
+ruamel.yaml
