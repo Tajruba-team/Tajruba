@@ -3,13 +3,13 @@ from django.contrib.auth.models import User
 
 
 class Settings(models.Model):
-    notify_when_reply = models.IntegerField()
-    notify_when_comment = models.IntegerField()
+    notify_when_reply = models.IntegerField(default=True, blank=True, null=True)
+    notify_when_comment = models.IntegerField(default=True, blank=True, null=True)
 
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    settings = models.OneToOneField(Settings, on_delete=models.CASCADE, blank=True, null=True)
+    settings = models.OneToOneField(Settings, on_delete=models.CASCADE, related_name='profile', blank=True, null=True)
 
     bio = models.TextField(max_length=200, blank=True, null=True)
     birth_date = models.DateField(blank=True, null=True)
