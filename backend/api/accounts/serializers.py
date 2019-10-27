@@ -60,7 +60,8 @@ class RegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data, *args, **kwargs):
         user = User(
             email=validated_data['email'],
-            username=validated_data['username']
+            username=validated_data['username'],
+            is_active=True
         )
         user.set_password(validated_data['password'])
         user.save()
