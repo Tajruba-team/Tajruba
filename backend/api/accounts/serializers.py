@@ -1,3 +1,5 @@
+import datetime 
+
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_auth.serializers import UserDetailsSerializer
@@ -67,7 +69,14 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
         
         user_settings = Settings.objects.create()
-        user_profile = Profile.objects.create(user=user, settings=user_settings, bio='.', birth_date=None, country=None, job=None)
+        default_date = datetime.date(1990, 1, 1)
+        user_profile = Profile.objects.create(user=user, 
+                                              settings=user_settings, 
+                                              bio='.', 
+                                              birth_date= default_date, 
+                                              country='.', 
+                                              job='.'
+        )
         
         return user
 
