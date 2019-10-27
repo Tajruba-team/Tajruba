@@ -70,8 +70,8 @@ class ExperienceSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     author = ProfileSerializer(required=False)
-    created_at = serializers.SerializerMethodField(method_name='get_created_at')
-    updated_at = serializers.SerializerMethodField(method_name='get_updated_at')
+    createdAt = serializers.SerializerMethodField(method_name='get_created_at')
+    updatedAt = serializers.SerializerMethodField(method_name='get_updated_at')
 
     class Meta:
         model = Comment
@@ -79,8 +79,8 @@ class CommentSerializer(serializers.ModelSerializer):
             'id',
             'author',
             'body',
-            'created_at',
-            'updated_at',
+            'createdAt',
+            'updatedAt',
         )
 
     def create(self, validated_data):
