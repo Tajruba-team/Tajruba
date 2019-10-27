@@ -1,52 +1,30 @@
 from django.db import models
-from django.contrib.auth.models import User
+
+from backend.api.core.models import TimestampedModel
+from backend.api.accounts.models import Profile
 
 
-class TagManager(models.Manager):
-	def get_queryset(self):
-		pass
+class Experience(TimestampedModel):
+    slug = models.SlugField(db_index=True, max_length=255, unique=True)
+    title = models.CharField(db_index=True, max_length=255)
+    description = models.TextField()
+    body = models.TextField()
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='experiences')
+    tags = models.ManyToManyField('experiences.Tag', related_name='experiences')
+
+    def __str__(self):
+        return self.title
 
 
-class Tag(models.Model):
-	title = models.CharField(max_length=15)
-	# objects = TagManager()
-
-	def __str__(self):
-		return self.title
+class Comment(TimestampedModel):
+    body = models.TextField()
+    experience = models.ForeignKey('experiences.Experience', related_name='comments', on_delete=models.CASCADE)
+    author = models.ForeignKey(Profile, related_name='comments', on_delete=models.CASCADE)
 
 
-class Experience(models.Model):
-	title = models.CharField(max_length=30)
-	content = models.TextField()
-	publish_date = models.DateTimeField(auto_now_add=True)
+class Tag(TimestampedModel):
+    tag = models.CharField(max_length=255)
+    slug = models.SlugField(db_index=True, unique=True)
 
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	tags = models.ManyToManyField('Tag', related_name="experience")
-
-	class Meta:
-		ordering = ('publish_date', )
-    
-	def __str__(self):
-		return f"{self.title} by {self.user.username}"
-
-
-class Comment(models.Model):
-	text = models.TextField()
-	created_date = models.DateTimeField(auto_now_add=True)
-
-	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments', null=True)
-	post = models.ForeignKey('Experience', on_delete=models.CASCADE, related_name='comments')
-
-	def __str__(self):
-		return self.text
-
-
-class Reply(models.Model):
-	text = models.TextField()
-	created_date = models.DateTimeField(auto_now_add=True)
-
-	author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='replies', null=True)
-	comment = models.ForeignKey('Comment', on_delete=models.CASCADE, related_name='replies')
-
-	def __str__(self):
-		return self.text
+    def __str__(self):
+        return self.tag

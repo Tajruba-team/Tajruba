@@ -1,59 +1,207 @@
-from django.shortcuts import get_object_or_404
-
-from rest_framework import viewsets
+from rest_framework import generics, mixins, status, viewsets
+from rest_framework.exceptions import NotFound
+from rest_framework.permissions import (
+    AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
+)
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import permissions, authentication
 
-from .models import Experience, Tag, Comment, Reply
-from .serializers import ExperienceSerializer, TagSerializer, CommentSerializer#, ReplySerializer
-from .permissions import IsOwnerOrReadOnly
+from .models import Experience, Comment, Tag
+from .renderers import ExperienceJSONRenderer, CommentJSONRenderer
+from .serializers import ExperienceSerializer, CommentSerializer, TagSerializer
 
 
-class ExperienceViewSet(viewsets.ModelViewSet):
+class ExperienceViewSet(mixins.CreateModelMixin, 
+                     mixins.ListModelMixin,
+                     mixins.RetrieveModelMixin,
+                     viewsets.GenericViewSet):
+
+    lookup_field = 'slug'
+    queryset = Experience.objects.select_related('author', 'author__user')
+    permission_classes = (IsAuthenticatedOrReadOnly, )
+    renderer_classes = (ExperienceJSONRenderer,)
     serializer_class = ExperienceSerializer
-    queryset = Experience.objects.all()
-    permission_classes = (
-                        permissions.IsAuthenticated,
-                        IsOwnerOrReadOnly
-    )
+
+    def get_queryset(self):
+        queryset = self.queryset
+
+        author = self.request.query_params.get('author', None)
+        if author is not None:
+            queryset = queryset.filter(author__user__username=author)
+
+        tag = self.request.query_params.get('tag', None)
+        if tag is not None:
+            queryset = queryset.filter(tags__tag=tag)
+
+        favorited_by = self.request.query_params.get('favorited', None)
+        if favorited_by is not None:
+            queryset = queryset.filter(
+                favorited_by__user__username=favorited_by
+            )
+
+        return queryset
 
     def create(self, request):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            self.perform_create(serializer)
-            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-        return Response(serializer.data, error=serializer.errors)
+        serializer_context = {
+            'author': request.user.profile,
+            'request': request
+        }
+        serializer_data = request.data.get('experience', {})
 
-    def perform_create(self, serializer):
+        serializer = self.serializer_class(
+        data=serializer_data, context=serializer_context
+        )
+        serializer.is_valid(raise_exception=True)
         serializer.save()
 
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-class TagViewSet(viewsets.ViewSet):
     def list(self, request):
-        queryset = Tag.objects.all()
-        serializer = TagSerializer(queryset, many=True)
-        return Response(serializer.data)
+        serializer_context = {'request': request}
+        page = self.paginate_queryset(self.get_queryset())
+
+        serializer = self.serializer_class(
+            page,
+            context=serializer_context,
+            many=True
+        )
+
+        return self.get_paginated_response(serializer.data)
+
+    def retrieve(self, request, slug):
+        serializer_context = {'request': request}
+
+        try:
+            serializer_instance = self.queryset.get(slug=slug)
+        except Experience.DoesNotExist:
+            raise NotFound('An experience with this slug does not exist.')
+
+        serializer = self.serializer_class(
+            serializer_instance,
+            context=serializer_context
+        )
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class CommentList(APIView):
-    """
-    comments per post list,
-    """
-    serializer_class =  CommentSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    def update(self, request, slug):
+        serializer_context = {'request': request}
 
-    def get(self, request, pk=None):
-        queryset = Comment.objects.filter(post=pk)
-        serializer = CommentSerializer(queryset, many=True)
-        return Response(serializer.data)
+        try:
+            serializer_instance = self.queryset.get(slug=slug)
+        except Experience.DoesNotExist:
+            raise NotFound('An experience with this slug does not exist.')
+            
+        serializer_data = request.data.get('experience', {})
+
+        serializer = self.serializer_class(
+            serializer_instance, 
+            context=serializer_context,
+            data=serializer_data, 
+            partial=True
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class ReplyList(APIView):
-    # serializer_class =  ReplySerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+class CommentsListCreateAPIView(generics.ListCreateAPIView):
+    lookup_field = 'experience__slug'
+    lookup_url_kwarg = 'experience_slug'
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    queryset = Comment.objects.select_related(
+        'experience', 'experience__author', 'experience__author__user',
+        'author', 'author__user'
+    )
+    renderer_classes = (CommentJSONRenderer,)
+    serializer_class = CommentSerializer
 
-    def get(self, request, pk=None):
-        queryset = Reply.objects.filter(post=pk)
-        serializer = CommentSerializer(queryset, many=True)
-        return Response(serializer.data)
+    def filter_queryset(self, queryset):
+        filters = {self.lookup_field: self.kwargs[self.lookup_url_kwarg]}
+
+        return queryset.filter(**filters)
+
+    def create(self, request, experience_slug=None):
+        data = request.data.get('comment', {})
+        context = {'author': request.user.profile}
+
+        try:
+            context['experience'] = Experience.objects.get(slug=experience_slug)
+        except Experience.DoesNotExist:
+            raise NotFound('An experience with this slug does not exist.')
+
+        serializer = self.serializer_class(data=data, context=context)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class CommentsDestroyAPIView(generics.DestroyAPIView):
+    lookup_url_kwarg = 'comment_pk'
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    queryset = Comment.objects.all()
+
+    def destroy(self, request, experience_slug=None, comment_pk=None):
+        try:
+            comment = Comment.objects.get(pk=comment_pk)
+        except Comment.DoesNotExist:
+            raise NotFound('A comment with this ID does not exist.')
+
+        comment.delete()
+
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
+
+
+class ExperienceFavoriteAPIView(APIView):
+    permission_classes = (IsAuthenticated,)
+    renderer_classes = (ExperienceJSONRenderer,)
+    serializer_class = ExperienceSerializer
+
+    def delete(self, request, experience_slug=None):
+        profile = self.request.user.profile
+        serializer_context = {'request': request}
+
+        try:
+            experience = Experience.objects.get(slug=experience_slug)
+        except Experience.DoesNotExist:
+            raise NotFound('An experience with this slug was not found.')
+
+        profile.unfavorite(experience)
+
+        serializer = self.serializer_class(experience, context=serializer_context)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, experience_slug=None):
+        import pdb; pdb.set_trace()
+        
+        profile = self.request.user.profile
+        serializer_context = {'request': request}
+
+        try:
+            experience = Experience.objects.get(slug=experience_slug)
+        except Experience.DoesNotExist:
+            raise NotFound('An experience with this slug was not found.')
+
+        profile.favorite(experience)
+
+        serializer = self.serializer_class(experience, context=serializer_context)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class TagListAPIView(generics.ListAPIView):
+    queryset = Tag.objects.all()
+    pagination_class = None
+    permission_classes = (AllowAny,)
+    serializer_class = TagSerializer
+
+    def list(self, request):
+        serializer_data = self.get_queryset()
+        serializer = self.serializer_class(serializer_data, many=True)
+
+        return Response({
+            'tags': serializer.data
+        }, status=status.HTTP_200_OK)

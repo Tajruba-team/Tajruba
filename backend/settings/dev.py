@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
 
     'corsheaders',
+    'django_extensions',
 
     'backend.api',
     'backend.api.accounts',
@@ -96,6 +97,8 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'knox.auth.TokenAuthentication',
     ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 20
 }
 
 REST_AUTH_SERIALIZERS = {
@@ -128,6 +131,14 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    },
+    'localdb': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'tajruba',
+        'USER': 'tajruba',
+        'PASSWORD': '123456789',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 

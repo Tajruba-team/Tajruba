@@ -15,8 +15,16 @@ class Profile(models.Model):
     birth_date = models.DateField(blank=True, null=True)
     country = models.CharField(max_length=30, blank=True, null=True)
     job = models.CharField(max_length=50, blank=True, null=True)
-    #photo
-    #social-accounts
+    favorites = models.ManyToManyField('experiences.Experience', related_name='favorited_by')
 
     def __str__(self):
         return self.user.username
+
+    def favorite(self, experience):
+        self.favorites.add(experience)
+
+    def unfavorite(self, experience):
+        self.favorites.remove(experience)
+
+    def has_favorited(self, experience):
+        return self.favorites.filter(pk=experience.pk).exists()

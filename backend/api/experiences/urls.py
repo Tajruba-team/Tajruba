@@ -1,10 +1,21 @@
-from django.urls import path
+from django.urls import include, path
 
-from . import views
+from rest_framework.routers import DefaultRouter
+from rest_framework.urlpatterns import format_suffix_patterns
+
+from .views import (
+    ExperienceViewSet, ExperienceFavoriteAPIView,
+    CommentsListCreateAPIView, CommentsDestroyAPIView, TagListAPIView
+)
+
+router = DefaultRouter(trailing_slash=True)
+router.register(r'experiences', ExperienceViewSet)
 
 
 urlpatterns = [
-    path('<int:pk>/', views.CommentList.as_view()),
-    path('<int:pk>/replies/', views.ReplyList.as_view()),
-    path('<int:pk>/replies/<int:pk2>/', views.ReplyList.as_view()),
+    path('', include(router.urls)),
+    path('experiences/<experience_slug>/favorite/',ExperienceFavoriteAPIView.as_view()),
+    path('experiences/<experience_slug>/comments/', CommentsListCreateAPIView.as_view()),
+    path('experiences/<experience_slug>/comments/<comment_pk>/',CommentsDestroyAPIView.as_view()),
+    path('tags/', TagListAPIView.as_view()),
 ]
