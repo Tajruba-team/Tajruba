@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'corsheaders',
 
     'backend.api',
+    'backend.api.core',
     'backend.api.accounts',
     'backend.api.experiences',
 ]
