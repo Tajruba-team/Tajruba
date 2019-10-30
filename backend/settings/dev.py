@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
 
     'corsheaders',
-    'django_extensions',
 
     'backend.api',
     'backend.api.core',
@@ -67,7 +66,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         # Add dist to
-        'DIRS': [os.path.join(BASE_DIR, 'dist/')],
+        'DIRS': [os.path.join(BASE_DIR, 'dist')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -173,21 +172,11 @@ USE_TZ = True
 # In Production, it's recommended use an alternative approach such as:
 # http://whitenoise.evans.io/en/stable/django.html?highlight=django
 
-# STATIC_URL = '/static/'
-# Serve `dist` as is, built by webpack
-# STATIC_ROOT = os.path.join(BASE_DIR, 'dist', 'static')
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'dist/static'),]
-
-##########
-# STATIC #
-##########
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'dist'), 
-)
+STATIC_ROOT = os.path.join(BASE_DIR, 'dist', 'static')
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 # Insert Whitenoise Middleware at top but below Security Middleware
 # MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware',)
