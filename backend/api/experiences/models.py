@@ -11,7 +11,8 @@ class Experience(TimestampedModel):
     body = models.TextField()
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='experiences')
     tags = models.ManyToManyField('experiences.Tag', related_name='experiences')
-
+    favorited_by = models.ManyToManyField(Profile, related_name='favorites')
+    
     def __str__(self):
         return self.title
 

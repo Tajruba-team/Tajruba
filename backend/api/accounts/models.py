@@ -15,7 +15,7 @@ class Profile(models.Model):
     birth_date = models.DateField(blank=True, null=True)
     country = models.CharField(max_length=30, blank=True, null=True)
     job = models.CharField(max_length=50, blank=True, null=True)
-    favorites = models.ManyToManyField('experiences.Experience', related_name='favorited_by')
+    # favorites = models.ManyToManyField('experiences.Experience', related_name='favorited_by')
 
     def __str__(self):
         return self.user.username
