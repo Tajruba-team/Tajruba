@@ -182,15 +182,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # http://whitenoise.evans.io/en/stable/django.html#make-sure-staticfiles-is-configured-correctly
 
 
-# CORS_ORIGIN_WHITELIST = [
-#     "http://tejruba1.herokuapp.com",
-
-#     "http://localhost:8080",
-#     "http://127.0.0.1:8080",
-
-#     "chrome-search://local-ntp:8000"
-# ]
-
 
 # Django allauth (account registration email flow)
 # http://django-allauth.readthedocs.io/en/latest/configuration.html
