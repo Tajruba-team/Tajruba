@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
 
     'corsheaders',
-
+    'drf_yasg',
+    
     'backend.api',
     'backend.api.accounts',
     'backend.api.experiences',
