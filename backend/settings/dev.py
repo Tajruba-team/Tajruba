@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'django_extensions',
 
     'backend.api',
-    'backend.api.core',
     'backend.api.accounts',
     'backend.api.experiences',
 ]
@@ -173,20 +172,15 @@ USE_TZ = True
 # In Production, it's recommended use an alternative approach such as:
 # http://whitenoise.evans.io/en/stable/django.html?highlight=django
 
-# STATIC_URL = '/static/'
+STATIC_URL = '/static/'
 # Serve `dist` as is, built by webpack
-# STATIC_ROOT = os.path.join(BASE_DIR, 'dist', 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'dist', 'static')
 # STATICFILES_DIRS = [os.path.join(BASE_DIR, 'dist/static'),]
 
 ##########
 # STATIC #
 ##########
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'dist'), 
-)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Insert Whitenoise Middleware at top but below Security Middleware
