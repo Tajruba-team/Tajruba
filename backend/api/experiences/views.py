@@ -175,7 +175,6 @@ class ExperienceFavoriteAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, experience_slug=None):
-        import pdb; pdb.set_trace()
         
         profile = self.request.user.profile
         serializer_context = {'request': request}
