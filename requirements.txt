@@ -7,6 +7,7 @@ django-rest-auth
 django-rest-swagger
 django-rest-knox
 djangorestframework
+drf-yasg
 Faker
 gunicorn
 Pillow
