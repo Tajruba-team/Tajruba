@@ -27,13 +27,11 @@
     left: 42%;
     transform: translate(-5%, -50%);
 
-
 }
 
-.btn-color {
-    @include primaryBtn;  
+.btn-shadow {
+    width: 100%;
+    height: 48px;
+    box-shadow: 0px 16px 32px rgba($color: #6600cc, $alpha: 0.2) !important;
 }
 
-.full {
-    height: 75vh;
-}

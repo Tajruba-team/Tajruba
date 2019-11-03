@@ -1,11 +1,11 @@
 <template>
     <div class="pb-5 mb-5" id="scroll-target">
-        <div class="postImg mb-2">
-            <v-img :src="post.Img" alt="user" aspect-ratio="1.4" height="200"></v-img>
+        <div class="postImg mb-4">
+            <v-img :src="post.Img" alt="user" aspect-ratio="1.4" class="cover"></v-img>
             <div class="postCategory font-weight-bold mx-3">{{ post.Category }}</div>
         </div>
-        <v-container fluid>
-            <div class="postTitle text-xs-right my-3">
+        <v-container px-3>
+            <div class="postTitle text-xs-right my-4">
                 <h1>{{ post.Title }}</h1>
             </div>
             <v-layout row align-center class="my-4">
@@ -33,7 +33,6 @@
                 <v-btn dark fab icon small flat color="error lighten-3">
                     <v-icon class="error--text">fas fa-heart</v-icon>
                 </v-btn>
-
                 <v-btn dark fab icon small flat color="yellow lighten-3">
                     <v-icon class="yellow--text darken-1">fas fa-bookmark</v-icon>
                 </v-btn>

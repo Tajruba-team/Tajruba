@@ -1,24 +1,33 @@
 <template>
-  <v-bottom-nav id="bottom-nav" color="primary" active.sync="bottomNav" :value="true" dark fixed shift>
-    <v-btn dark router to="/">
-      <span>التجارب</span>
+  <v-bottom-nav id="bottom-nav" active.sync="bottomNav" :value="true" fixed shift >
+    
+    <v-btn color=""
+    router to="/">
+      <span></span>
       <v-icon>fas fa-flask</v-icon>
     </v-btn>
 
-    <v-btn dark router to="/editor">
-      <span>كتابه</span>
-      <v-icon>fas fa-feather</v-icon>
+    <v-btn
+     color="primary" 
+     router 
+     to="/editor">
+      <span></span>
+      <v-icon >fas fa-feather</v-icon>
     </v-btn>
-
-    <v-btn dark router to="/profile">
+    
+    <v-btn
+     color="primary" 
+     router to="/profile">
       <span>البروفايل</span>
       <v-icon>fas fa-user</v-icon>
     </v-btn>
-
-    <v-btn dark class="caption" router to="/settings">
+    <!-- <v-btn
+     color="primary"    
+      class="caption" router to="/settings">
       <span>الإعدادات</span>
       <v-icon>fas fa-cog</v-icon>
     </v-btn>
+   -->
   </v-bottom-nav>
 </template>
 

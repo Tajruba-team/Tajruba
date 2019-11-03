@@ -1,14 +1,11 @@
 <template>
   <div class="home">
-    <!-- <div class="gradient"></div> -->
-    <div class="clipped-header hidden-md-and-up"></div>
-
     <categories-list class="mb-2" />
-
     <v-container class="pt-0  mb-5">
-      <div class="cardsHolder">
+      <div class="cardsHolder mt-3">
         <v-flex ms12 class="mt-1 mb-3" v-for="tejruba in FilterdExperiences" :key="tejruba.ID">
-          <v-card class="elevation-20 article_card mt-0" router :to="`/postPage/${tejruba.ID}`">
+
+          <v-card class="elevation-2 article_card mt-0" router :to="`/postPage/${tejruba.ID}`" max-width="800">
             <v-img :src="tejruba.Img" aspect-ratio="2.75">
               <v-layout justify-start>
                 <v-avatar class="box-shadow pa-3 ma-2" size="40" color="gray">
@@ -23,7 +20,7 @@
               </div>
             </v-card-title>
             <v-card-text class="pt-0">
-              <p class="row-4 text-xs-right mb-0 caption"> {{ tejruba.content | truncate }} </p>
+              <p class="grey--text row-4 text-xs-right mb-0 caption"> {{ tejruba.content | truncate }} <span class="font-weight-bold">. . .</span></p>
             </v-card-text>
             <div class="caption ml-0 mb-2 mx-3 text-xs-right">
               {{ tejruba.Date }}
@@ -68,7 +65,7 @@
     },
 
     computed: {
-      ...mapGetters(['altejarub', 'contents', 'textContent']),
+      ...mapGetters(['altejarub', 'contents', 'textContent', 'sideNav']),
       FilterdExperiences() {
         if (this.$store.state.experienceFilterValue) {
           return this.altejarub.filter((exp) => {
@@ -78,7 +75,7 @@
           return this.altejarub
         }
       }
-    
+
     },
 
     methods: {
@@ -92,21 +89,21 @@
       console.log(this.$store.state.currentPage);
       // console.log(this.$route.name); 
     },
-    
+
     filters: {
       truncate(value) {
         if (!value) return ''
         value = value.toString()
-      var content = value.trim()
-          content = content.split(' ').slice(0, 30)
-          content = content.join(' ')
-          value = content
-          console.log('...>>>  ',value)
+        var content = value.trim()
+        content = content.split(' ').slice(0, 50)
+        content = content.join(' ')
+        value = content
+        console.log('...>>>  ', value)
         return value
       },
     }
 
-}
+  }
 </script>
 
 <style lang="scss" scoped>

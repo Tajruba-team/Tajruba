@@ -1,20 +1,8 @@
 @import '../../tools';
 
-.userCard {
-    z-index: 3;
-
-    position: fixed;
-    width: 100vw;
-    display: block;
-    @include app_gradient(-200deg , 0% ,85%);
+.userCard{
+    box-shadow: 0 3px 5px -2px rgba(0,0,0,.025),0 10px 10px 0 rgba(0,0,0,.025),0 0 10px 0 rgba(0,0,0,.025)!important;  
 }
-
-.block {
-    width: 100vw;
-    height: 240px;
-    background: #273486;
-}
-
 .font-size {
     font-size: 30px;
 }

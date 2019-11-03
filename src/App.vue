@@ -1,33 +1,33 @@
 <template>
-<!-- 
+  <!-- 
                   #تعديلات مهمه #
    [جعل كمبوننت المعلومات يظهر مباشره عند فتح البروفايل] # 
    [جعل كمبوننت المعلومات يظهر مباشره عند فتح البروفايل] # 
 -->
   <div id="app">
     <v-app>
-      <Header/>
       <v-content>
-        <!-- <cat-picker/> -->
-          <router-view/>
+      <side-nav />
+        <Header />
+        <router-view />
       </v-content>
-      <bottom-nav/>
+      <bottom-nav />
     </v-app>
   </div>
 </template>
 
 <script>
-import bottomNav from './components/app-layout/bottomNav.vue'
-import Header from './components/app-layout/Header.vue'
-import catPicker from './views/CategoriesPicker.vue'
-export default {
-  components:{
-    bottomNav,
-    Header,
-    catPicker
+  import bottomNav from './components/app-layout/bottomNav.vue'
+  import sideNav from './components/app-layout/SideNav.vue'
+  import Header from './components/app-layout/Header.vue'
+  export default {
+    components: {
+      bottomNav,
+      Header,
+      sideNav,
+    }
   }
-}
 </script>
 <style lang="scss">
-@import './styles/app';
+  @import './styles/app';
 </style>

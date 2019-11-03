@@ -1,9 +1,5 @@
 @import '../tools';
 
-.clipped-header {
-  @include clipped_header_circle (50vh, 100vw, 100%, 60%);
-}
-
 .ql-editor {
   font-size: 16px;
   overflow: auto;
@@ -21,9 +17,9 @@
 #editorQuill {
   height: 73vh;
   border-radius: 5px;
-  padding: 5px;
+  padding: 10px;
   background: #ffffff;
-  border: 7px solid #e8e8e8;
+  border: 2px solid #e8e8e8;
 }
 
 .snackbar_error{

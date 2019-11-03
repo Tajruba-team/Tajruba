@@ -16,7 +16,7 @@ Vue.use(Vuetify, {
   rtl: true,
   // #475bd0 , #4f98e8 , #19006c,#3f1ab8
   theme: {
-    primary: '#273486',
+    primary: '#6600cc',
     secondary: '#34c5e5',
     accent: '#475bd0',
     error: '#e91e4d',

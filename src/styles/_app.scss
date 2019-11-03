@@ -16,14 +16,15 @@
 
 
 @font-face{
-  font-family: 'Droid Arabic Kufi';
+  font-family: 'Cairo';
   font-display: block;
-  src: url(http://fonts.googleapis.com/earlyaccess/droidarabickufi.css);
+  src: url(https://fonts.googleapis.com/css?family=Cairo&display=swap);
   background: #fff;
 }
 
+
 *{
-  font-family: 'Droid Arabic Kufi', serif;
+  font-family: 'Cairo', serif;
 }
 
 

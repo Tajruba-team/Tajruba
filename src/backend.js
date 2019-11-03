@@ -6,7 +6,7 @@ import axios from 'axios'
 // const CSRF_HEADER_NAME = 'X-CSRFToken';
 
 let $backend = axios.create({
-  baseURL: 'https://tejruba1.herokuapp.com/api',
+  baseURL: 'https://tajruba1.herokuapp.com/api',
   // timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
@@ -27,11 +27,11 @@ $backend.interceptors.response.use(function (response) {
 
 $backend.$register = (user) => {
   console.log(" user form backendjs "+ user +"user name: " + user.name +"  email: "+ user.email +" pass1: "+ user.password1 +" pass2: "+ user.password2)
-  return $backend.post(`/accounts/registration/`, {
+
+  return $backend.post(`/accounts/register/`, {
       username: user.name,
       email: user.email,
-      password1: user.password1,
-      password2: user.password2,
+      password: user.password1
     })
     .then(response => response.data)
 }

@@ -4,15 +4,9 @@
     display: inline-block;
 }
 
-.gradient {
-    width: 100vw;
-    height: 56px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-image: linear-gradient(175deg, #49a8c9 17%, #3a76ac 100%);
-}
-
 .toolbar {
     z-index: 2;
+}
+#toolbar{
+    box-shadow: 0 3px 5px -2px rgba(0,0,0,.025),0 10px 10px 0 rgba(0,0,0,.025),0 0 10px 0 rgba(0,0,0,.025)!important;
 }

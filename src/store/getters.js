@@ -11,4 +11,5 @@ export default {
         comments: state => state.comments,
         userInfo: state => state.userInfo,
         snackbar: state => state.snackbar,
+        sideNav: state => state.sideNav,
 }

@@ -1,12 +1,9 @@
 <template>
-  <v-container fluid class="pa-2">
-    <div class="clipped-header hidden-md-and-up"></div>
-
+  <v-container class="pa-2">
     <!-- toolbar -->
-
-    <v-layout row justify-center align-center wrap>
-      <v-btn @click="uploadDialog = true">
-        <v-icon small right class="primary--text  ml-2">fas fa-upload</v-icon>
+    <v-layout row justify-center align-center wrap class="mt-3">
+      <v-btn @click="uploadDialog = true" color="white" class="primary--text">
+        <v-icon small right class="ml-2">fas fa-image</v-icon>
         <span> صوره </span>
       </v-btn>
 
@@ -16,6 +13,7 @@
           <v-card-title>
             إختيار صوره
           </v-card-title>
+          <v-divider></v-divider>
           <v-img
             v-if="ImgUrl"
             contain
@@ -40,6 +38,7 @@
               </v-flex>
             </v-layout>
           </v-card-text>
+          <v-divider></v-divider>
           <v-card-actions>
             <v-btn class="ml-3" :class="[isDisabled ? '' : 'publish']" color="success" text @click="onSaveUploadedImg" :disabled='isDisabled'>
               حفظ
@@ -62,9 +61,10 @@
 
     <v-form ref="editorForm" v-model="valid" lazy-validation>
       <v-text-field 
-      class="white--text mt-2" 
-      dark 
-      box color="gray" 
+      class="primary--text mt-3" 
+      color="primary" 
+      outline
+      background-color="#eee"
       v-model="Title"
       name="name" 
       label="عنوان التجربه" 
@@ -72,9 +72,12 @@
       </v-text-field>
 
       <v-select 
+      class="primary--text" 
+      outline
+      background-color="#eee"
       :items="categories" 
       :rules="[v => !!v || 'يجب إختيار فئه للتجربه']" v-model="Category"
-      label="إختر فئه التجربه" chips solo clearable required>
+      label="إختر فئه التجربه" chips  clearable required>
       </v-select>
 
       <!-- editor -->

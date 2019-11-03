@@ -25,6 +25,8 @@ export default new Vuex.Store({
       message : '',
       color: ''
     },
+
+    sideNav:true
   },
 
   getters,

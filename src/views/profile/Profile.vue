@@ -1,6 +1,6 @@
 <template>
   <div class="profile white">
-    <div class=" userCard  elevation-6">
+    <div class="grey lighten-5 userCard">
       <v-btn small absolute left="0" router to="/EditProfile" fab color="white" class="my-3 pt-2 pl-1">
         <v-icon color="primary">fas fa-user-edit</v-icon>
       </v-btn>
@@ -9,20 +9,20 @@
         <v-avatar class="elevation-10" size="95" color="gey">
           <img :src="userAvatar || 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png'" alt="alt">
         </v-avatar>
-        <div class="white--text mt-3">
-          <h2 class="font-weight-light "> حسان ثابت </h2>
-          <p class="font-weight-light caption">مطور مواقع</p>
+        <div class="primary--text mt-3">
+          <h2 class="font-weight-bold "> حسان ثابت </h2>
+          <p class="font-weight-light ">مطور مواقع</p>
         </div>
       </v-layout>
 
-      <v-tabs fixed xs12 md6 justify-center grow color="transparent" slider-color="white">
-        <v-tab active ml-5 router to="/profile/" class="white--text">
+      <v-tabs fixed xs12 md6 justify-center grow color="transparent" slider-color="primary lighten-5">
+        <v-tab active ml-5 router to="/profile/" class="primary--text">
           <span>المزيد </span>
         </v-tab>
-        <v-tab active ml-5 router to="/profile/posts" class="white--text">
+        <v-tab active ml-5 router to="/profile/posts" class="primary--text">
           <span>تجاربي</span>
         </v-tab>
-        <v-tab active ml-5 router to="/profile/favourites" class="white--text">
+        <v-tab active ml-5 router to="/profile/favourites" class="primary--text">
           <span>المفضله</span>
         </v-tab>
       </v-tabs>

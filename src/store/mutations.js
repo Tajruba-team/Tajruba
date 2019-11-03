@@ -28,5 +28,8 @@ export default {
     UpdateUserAvatar(state, payload){
       state.userInfo = payload
     },
+    ToggleSideNav(state){
+      state.sideNav = !state.sideNav
+    },
 
 }
